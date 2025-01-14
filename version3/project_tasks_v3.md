@@ -34,40 +34,40 @@ Verification:
 - [x] Test valid name submission
 
 ## 4. Leaderboard Display
-- [ ] Create leaderboard UI component
-- [ ] Add sorting and formatting of scores
-- [ ] Implement toggle for leaderboard visibility
-- [ ] Style the leaderboard to match game theme
+- [x] Create leaderboard UI component
+- [x] Add sorting and formatting of scores
+- [x] Implement toggle for leaderboard visibility
+- [x] Style the leaderboard to match game theme
 
 Verification:
-- View leaderboard with test data
-- Check sorting is correct
-- Verify date formatting
-- Test responsive layout
+- [x] View leaderboard with test data
+- [x] Check sorting is correct
+- [x] Verify date formatting
+- [x] Test responsive layout
 
 ## 5. Game Integration
-- [ ] Connect game over state to high score check
-- [ ] Add leaderboard button to main UI
-- [ ] Update score display to show current high score
-- [ ] Add animations for new high score achievements
+- [x] Connect game over state to high score check
+- [x] Add leaderboard button to main UI
+- [x] Update score display to show current high score
+- [x] Add animations for new high score achievements
 
 Verification:
-- Play full game
-- Achieve high score
-- Verify save process
-- Check persistence after page reload
+- [x] Play full game
+- [x] Achieve high score
+- [x] Verify save process
+- [x] Check persistence after page reload
 
 ## 6. Polish & UX
-- [ ] Add animations for new high score entry
-- [ ] Implement sound effects for high score
-- [ ] Add local/session storage fallback
-- [ ] Add clear leaderboard functionality
+- [x] Add animations for new high score entry
+- [x] Implement sound effects for high score
+- [x] Add local/session storage fallback
+- [x] Add clear leaderboard functionality
 
 Verification:
-- Test all animations
-- Verify sound effects
-- Clear browser data and verify fallback
-- Test clear functionality
+- [x] Test all animations
+- [x] Verify sound effects
+- [x] Clear browser data and verify fallback
+- [x] Test clear functionality
 
 ## Implementation Order
 1. Start with local storage setup - foundation for all features

@@ -1,15 +1,18 @@
 import Piece from './piece.js';
 import Board from './board.js';
 import LeaderboardManager from './leaderboardManager.js';
+import SoundManager from './soundManager.js';
 
 class Game {
     constructor() {
         this.leaderboardManager = new LeaderboardManager();
+        this.soundManager = new SoundManager();
         this.initializeState();
         this.setupControls();
         this.setupOverlay();
         this.setupTouchControls();
         this.setupLeaderboard();
+        this.setupGameControls();
         this.resetGame(); // Start the game immediately
     }
 
@@ -94,6 +97,7 @@ class Game {
     showHighScoreAnimation() {
         const scoreElement = document.getElementById('score');
         scoreElement.classList.add('new-high-score');
+        this.soundManager.play('highScore');
         setTimeout(() => scoreElement.classList.remove('new-high-score'), 1000);
     }
 
@@ -142,7 +146,7 @@ class Game {
             pointer-events: none;
         `;
         document.querySelector('.game-board').appendChild(message);
-        
+        this.soundManager.play('levelUp');
         setTimeout(() => message.remove(), 1500);
     }
 
@@ -461,6 +465,7 @@ class Game {
         // Submit score and update leaderboard
         this.leaderboardManager.addScore(trimmedName, this.score);
         this.updateLeaderboard();
+        this.soundManager.play('highScore');
         return true;
     }
 
@@ -527,6 +532,7 @@ class Game {
             const lineBonus = [0, 100, 300, 500, 800];
             const points = clearedCells * 10 + (lineBonus[Math.floor(clearedCells / 3)] || 1000);
             this.updateScore(points);
+            this.soundManager.play('match');
         }
 
         this.currentPiece = this.nextPiece;
@@ -662,6 +668,40 @@ class Game {
         } else {
             return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
         }
+    }
+
+    setupGameControls() {
+        const muteButton = document.getElementById('mute-button');
+        const clearButton = document.getElementById('clear-scores');
+
+        // Setup mute button
+        muteButton.textContent = this.soundManager.isSoundMuted() ? '🔈' : '🔊';
+        muteButton.addEventListener('click', () => {
+            const isMuted = this.soundManager.toggleMute();
+            muteButton.textContent = isMuted ? '🔈' : '🔊';
+            muteButton.classList.toggle('muted', isMuted);
+        });
+
+        // Setup clear scores button
+        let clearTimeout;
+        clearButton.addEventListener('click', () => {
+            if (clearButton.classList.contains('clear-confirm')) {
+                // Confirmed - clear scores
+                this.leaderboardManager.clearLeaderboard();
+                this.updateLeaderboard();
+                clearButton.classList.remove('clear-confirm');
+                clearButton.title = 'Clear Scores';
+                if (clearTimeout) clearTimeout(clearTimeout);
+            } else {
+                // First click - ask for confirmation
+                clearButton.classList.add('clear-confirm');
+                clearButton.title = 'Click again to confirm';
+                clearTimeout = setTimeout(() => {
+                    clearButton.classList.remove('clear-confirm');
+                    clearButton.title = 'Clear Scores';
+                }, 3000);
+            }
+        });
     }
 }
 
